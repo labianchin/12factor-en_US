@@ -51,8 +51,6 @@ Explicitly declare and isolate dependencies
 - Never rely on the implicit existence of any system tools
 - Supports reproducible builds
 - Examples of tools: gem/bundle, pip/virtualenv, autoconf, ...
-- Also valid for system tools (like ImageMagick)
-- Vendor system tools that need to be shell out
 
 HIGH importance
 
@@ -68,8 +66,6 @@ Store configuration in the environment (NOT code)
   - Canonical hostname for the deploy
 - Strict separation of config from code
 - Does not include internal application config (like Spring)
-- Environment variables as config
-- Never group config together as "environments"
 
 ---
 
@@ -96,8 +92,11 @@ Strictly separate build, release and run stages
 - **Release** : Build with deploy's current config, ready for immediate execution
 - **Run** : Launches a set of app's processes against a selected release
 - Example tool: Capistrano
-- Run stage should be simple
-- Build might be more complex: errors are visible for the devs
+
+.hidden[
+- Run stage -> simple
+- Build -> more complex: errors are visible for the devs
+]
 
 .center[ ![](http://12factor.net/images/release.png) ]
 
@@ -119,6 +118,10 @@ Execute the app as one or more stateless processes
  - Incurs fewer bugs
  - Scales better
 
+.hidden[
+- Easy to tear down and move to other server
+]
+
 HIGH importance
 
 ---
@@ -128,7 +131,6 @@ HIGH importance
 Export services via port binding
 
 - Completely self-contained
-- Does not rely on runtime injection of a webserver
 - Exports HTTP as a service by binding to a port
 - Routing layer to handle requests routing to a hostname
 - Webserver libraries such as Jetty for JVM or Thin for Ruby
@@ -146,8 +148,8 @@ Scale out via the process model
 - Adding more concurrency is a simple and reliable operation:
  - Share-nothing
  - Horizontally partitionable
-- Twelve-factor app processes should never daemonize or write PID files
-- Relies on OS process manager (Upstart, Systemd, Foreman, ...) to:
+- Never daemonize or write PID files
+- Relies on OS process manager (upstart, systemd, launchd, foreman, ...) to:
  - Manage output streams
  - Respond to crashed processes
  - Handle restarts and shutdowns
@@ -158,11 +160,14 @@ Scale out via the process model
 
 Maximize robustness with fast startup and graceful shutdown
 
-- App’s processes are disposable: can be started or stopped at a moment’s notice
+- .hidden[ App’s processes are disposable: ] Can be started or stopped at a moment’s notice
 - Strive to maximize robustness with fast startup and graceful shutdown
 - Processes shut down gracefully when they receive a SIGTERM signal from the process manager
 - Processes should also be robust against sudden death
+
+.hidden[
 - Crash-only software
+]
 
 .hidden[ Importance: Medium Depending on how often you are releasing new code (hopefully many times per day, if you can), and how much you have to scale your app traffic up and down on demand, you probably won’t have to worry about your startup/shutdown speed, but be sure to understand the implications for your app. ]
 
@@ -185,12 +190,12 @@ Keep development, staging, and production as similar as possible
 
 Treat logs as event streams
 
-- Never concerns itself with routing or storage of its output stream
-- It should not attempt to write to or manage logfiles
-- Each running process writes its event stream, unbuffered, to stdout
+- Event stream is written to STDOUT
 - Use log routers (such as Logplex and Fluent)
 
+.hidden[
 Note: writing to stdout seems very purist
+]
 
 ---
 
@@ -198,8 +203,8 @@ Note: writing to stdout seems very purist
 
 Run admin/management tasks as one-off processes
 
-- Run against a release: same code and config as any process run against that release.
-- Must ship with application code to avoid synchronization issues.
+- Run against a release: same code and config as any process run against that release
+- Must ship with application code to avoid synchronization issues
 
 
 .hidden[ Importance: HIGH Having console access to a production system is a critical administrative and debugging tool, and every major language/framework provides it. No excuses for sloppiness here ]
