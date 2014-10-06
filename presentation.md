@@ -2,7 +2,23 @@ name: 12factor
 class: center, middle
 
 # 12 Factor App
+
 ### Building and releasing at the web-scale
+
+.hidden[
+With powerful tools and modern cloud platforms one can think on how to properly build web apps that suits these environments. The 12  Factor App is a set of best practices on how apps built for PaaS should be architected. At its core, apps need not to care where they are.
+]
+
+---
+
+## Motivation
+
+- PaaS examples: Heroku, dotCloud, Cloud Fundry, App Fog
+- IaaS => Infra, PaaS => Apps
+- Docker, CoreOS, Flynn, Deis, ...
+- 12 Factor: Best practices on how PaaS apps should architected
+- PaaS-friendly apps need to not care where they are
+- When it does make sense to deviate from it
 
 ---
 
@@ -14,16 +30,6 @@ class: center, middle
 - **Minimize divergence** between prod/dev
 - Enables **continuous deployment**
 - **Scale up** easily
-
----
-
-## Motivation
-
-- Best practices on how PaaS apps should architected
-- PaaS-friendly apps need to not care where they are
-- Docker/coreos ...
-- Understands what it is
-- When it does make sense to deviate from it
 
 ---
 
