@@ -13,12 +13,12 @@ With powerful tools and modern cloud platforms one can think on how to properly 
 
 ## Motivation
 
-- PaaS examples: Heroku, dotCloud, Cloud Fundry, App Fog
+- Heroku PaaS with Cedar stack as way of building portable apps
+- Easy to deploy and scalable, for any language
 - IaaS => Infra, PaaS => Apps
-- Docker, CoreOS, Flynn, Deis, ...
+- Docker, CoreOS, Dokku, Flynn, Deis, ...
 - 12 Factor: Best practices on how PaaS apps should architected
 - PaaS-friendly apps need to not care where they are
-- When it does make sense to deviate from it
 
 ---
 
@@ -110,8 +110,7 @@ Execute the app as one or more stateless processes
 
 - The app is executed in the execution environment
 - Stateless and share-nothing
-- Sticky sessions is a violation
-- Session data should be stored with a time-expiration, good candidates are *Memcached* or *Redis*
+- Session data should be stored with a time-expiration, e.g. *Memcached* or *Redis*
 - Stateless means:
  - More robust
  - Easier to manage
@@ -130,10 +129,9 @@ HIGH importance
 
 Export services via port binding
 
-- Completely self-contained
 - Exports HTTP as a service by binding to a port
 - Routing layer to handle requests routing to a hostname
-- Webserver libraries such as Jetty for JVM or Thin for Ruby
+- Uses Webserver libraries such as Jetty for JVM or Thin for Ruby
 - One app can become the backing service for another app
 
 Importance: Medium
@@ -145,9 +143,6 @@ Importance: Medium
 Scale out via the process model
 
 - Processes are a first class citizen
-- Adding more concurrency is a simple and reliable operation:
- - Share-nothing
- - Horizontally partitionable
 - Never daemonize or write PID files
 - Relies on OS process manager (upstart, systemd, launchd, foreman, ...) to:
  - Manage output streams
@@ -161,9 +156,9 @@ Scale out via the process model
 Maximize robustness with fast startup and graceful shutdown
 
 - .hidden[ App’s processes are disposable: ] Can be started or stopped at a moment’s notice
-- Strive to maximize robustness with fast startup and graceful shutdown
-- Processes shut down gracefully when they receive a SIGTERM signal from the process manager
-- Processes should also be robust against sudden death
+- Maximize robustness with fast startup and graceful shutdown
+- Gracefully shut down when receiving a SIGTERM signal
+- Processes should be robust against sudden death
 
 .hidden[
 - Crash-only software
@@ -182,7 +177,7 @@ Keep development, staging, and production as similar as possible
  - Time gap
  - Personnel gap
  - Tools gap
-- Resists to use different backing services between development and production
+- Resists to use different backing services between dev and prod
 
 ---
 
@@ -205,6 +200,7 @@ Run admin/management tasks as one-off processes
 
 - Run against a release: same code and config as any process run against that release
 - Must ship with application code to avoid synchronization issues
+- e.g. Database migration
 
 
 .hidden[ Importance: HIGH Having console access to a production system is a critical administrative and debugging tool, and every major language/framework provides it. No excuses for sloppiness here ]
