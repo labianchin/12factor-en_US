@@ -37,8 +37,7 @@ With powerful tools and modern cloud platforms one can think on how to properly 
 
 One codebase tracked in revision control, many deploys
 
-- One app per codebase
-- Multiple apps sharing the same code is a violation
+- Single app per codebase
 
 .center[ ![]( http://12factor.net/images/codebase-deploys.png ) ]
 
@@ -78,6 +77,10 @@ Treat backing services as attached resources
 - Loose coupling to the attached deploy
 - Resources can be attached and detached to deploys at will, no code changes
 
+.hidden[
+- Possible to use a fake service for testing
+]
+
 .center.fixsize[ ![](http://12factor.net/images/attached-resources.png) ]
 
 HIGH importance
@@ -91,16 +94,16 @@ Strictly separate build, release and run stages
 - **Build** : Converts code repo into an executable bundle
 - **Release** : Build with deploy's current config, ready for immediate execution
 - **Run** : Launches a set of app's processes against a selected release
-- Example tool: Capistrano
 
 .hidden[
+- Example tool: Capistrano
 - Run stage -> simple
 - Build -> more complex: errors are visible for the devs
+Conceptual importance. The tools you use shape these processes.
 ]
 
 .center[ ![](http://12factor.net/images/release.png) ]
 
-Conceptual importance. The tools you use shape these processes.
 
 ---
 
@@ -108,7 +111,6 @@ Conceptual importance. The tools you use shape these processes.
 
 Execute the app as one or more stateless processes
 
-- The app is executed in the execution environment
 - Stateless and share-nothing
 - Session data should be stored with a time-expiration, e.g. *Memcached* or *Redis*
 - Stateless means:
@@ -118,6 +120,7 @@ Execute the app as one or more stateless processes
  - Scales better
 
 .hidden[
+- The app is executed in the execution environment
 - Easy to tear down and move to other server
 ]
 
@@ -149,6 +152,11 @@ Scale out via the process model
  - Respond to crashed processes
  - Handle restarts and shutdowns
 
+.hidden[
+- Foreman, good tool, can export to other processes managers
+]
+
+
 ---
 
 ## IX. Disposability
@@ -174,9 +182,9 @@ Keep development, staging, and production as similar as possible
 
 - Designed for continuous deployment
 - Keep the gap between development and production small:
- - Time gap
- - Personnel gap
- - Tools gap
+ - Time gap: long time to prod
+ - Personnel gap: developers code, ops deploy
+ - Tools gap: different stack
 - Resists to use different backing services between dev and prod
 
 ---
