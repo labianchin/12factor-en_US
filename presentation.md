@@ -3,7 +3,7 @@ class: center, middle
 
 # 12 Factor App
 
-### Building and releasing at the web-scale
+### Construindo aplicações para escala da web
 
 .hidden[
 With powerful tools and modern cloud platforms one can think on how to properly build web apps that suits these environments. The 12  Factor App is a set of best practices on how apps built for PaaS should be architected. At its core, apps need not to care where they are.
@@ -11,33 +11,37 @@ With powerful tools and modern cloud platforms one can think on how to properly 
 
 ---
 
-## Motivation
+## Motivação
 
-- Heroku PaaS with Cedar stack as way of building portable apps
-- Easy to deploy and scalable, for any language
-- IaaS => Infra, PaaS => Apps
+- Heroku PaaS com a stack Cedar como uma forma de construir apps portáveis
+- Fácil de implantar e entregar, para qualquer linguagem
 - Docker, CoreOS, Dokku, Flynn, Deis, ...
-- 12 Factor: Best practices on how PaaS apps should architected
-- PaaS-friendly apps need to not care where they are
+- 12 Factor: Boas praticas de como apps para PaaS devem ser arquitetadas
+- Apps PaaS-friendly não devem se importar onde estão rodando
+
+???
+
+- IaaS => Infra, PaaS => Apps
+
 
 ---
 
-## Introduction
+## Introdução
 
-- **Declarative** formats for setup automation
-- **Maximum portability** between execution environments
-- **Deployment** on modern **cloud platforms**
-- **Minimize divergence** between prod/dev
-- Enables **continuous deployment**
-- **Scale up** easily
+- Formatos **declarativos** de automação
+- **Máxima portabilidade** entre ambientes de execução
+- **Implantação** em modernas **plataformas cloud**
+- **Minimização de divergência** entre prod/dev
+- Permite **implantação contínua**
+- **Escalabilidade** fácil
 
 ---
 
-## I. Codebase
+## I. Base de código
 
-One codebase tracked in revision control, many deploys
+Uma base de código num sistema de controle de versões, muitas implantações (deploys)
 
-- Single app per codebase
+- Única app por base de código
 
 .center[ ![]( http://12factor.net/images/codebase-deploys.png ) ]
 
@@ -48,39 +52,41 @@ One codebase tracked in revision control, many deploys
 
 ---
 
-## II. Dependencies
+## II. Dependências
 
-Explicitly declare and isolate dependencies
+Declare e isole dependências explicitamente
 
-- Never rely on the implicit existence of any system tools
-- Supports reproducible builds
-- Examples of tools: gem/bundle, pip/virtualenv, autoconf, ...
+- Nunca confie na existência implícita de ferramentas do sistema
+- Suporte de builds reproduzíveis
+- Exemplo de ferramentas: gem/bundle, pip/virtualenv, autoconf, ...
 
-HIGH importance
+???
 
----
-
-## III. Config
-
-Store configuration in the environment (NOT code)
-
-- Config is anything that may vary between deploys:
-  - Resource handles
-  - Credentials
-  - Canonical hostname for the deploy
-- Strict separation of config from code
-- Does not include internal application config (like Spring)
+ALTA importância
 
 ---
 
-## IV. Backing services
+## III. Configuração
 
-Treat backing services as attached resources
+Guarde a configuração no ambiente (NÃO no código)
 
-- No distinction between local and third party services
-- Allows great flexibility
-- Loose coupling to the attached deploy
-- Resources can be attached and detached to deploys at will, no code changes
+- Configuração é qualquer coisa que pode variar entre implantações:
+  - Controladores de recursos
+  - Credenciais
+  - Hostnames canônicos por implantação
+- Separação estrita entre configuração de código
+- Não incluí configuração interna da aplicação (ex: Spring)
+
+---
+
+## IV. Serviços de apoio
+
+Trate serviços de apoio como recursos anexados
+
+- Sem distinção entre serviços locais e de terceiros
+- Permite grande flexibilidade
+- Baixo acoplamento a implantação
+- Recursos podem ser alterados em implantações á vontade, sem mudanças de código
 
 .center.fixsize[ ![](http://12factor.net/images/attached-resources.png) ]
 
@@ -96,11 +102,11 @@ HIGH importance
 
 ## V. Build, release, run
 
-Strictly separate build, release and run stages
+Estrita separação entre estágios de build, release e run
 
-- **Build** : Converts code repo into an executable bundle
-- **Release** : Build with deploy's current config, ready for immediate execution
-- **Run** : Launches a set of app's processes against a selected release
+- **Build** : Converte código do repositório para um pacote executável
+- **Release** : Build com configuração da implantação, pronto para execução imediata
+- **Run** : Lança um conjunto de processos contra um release selecionado
 
 .center[ ![](http://12factor.net/images/release.png) ]
 
@@ -114,17 +120,17 @@ Strictly separate build, release and run stages
 
 ---
 
-## VI. Processes
+## VI. Processos
 
-Execute the app as one or more stateless processes
+Execute a aplicação como um ou mais processos sem estado
 
-- Stateless and share-nothing
-- Session data should be stored with a time-expiration, e.g. *Memcached* or *Redis*
-- Stateless means:
- - More robust
- - Easier to manage
- - Incurs fewer bugs
- - Scales better
+- Stateless e share-nothing
+- Dados de sessão devem ser guardados em outro serviço, ex: *Memcached* ou *Redis*
+- Sem estado significa:
+ - Mais robusto
+ - Fácil de gerenciar
+ - Menos bugs
+ - Escala melhor
 
 ???
 
@@ -135,28 +141,28 @@ HIGH importance
 
 ---
 
-## VII. Port binding
+## VII. Vínculo de porta
 
-Export services via port binding
+Exporte serviços através de um vínculo de uma porta
 
-- Exports HTTP as a service by binding to a port
-- Routing layer to handle requests routing to a hostname
-- Uses Webserver libraries such as Jetty for JVM or Thin for Ruby
-- One app can become the backing service for another app
+- Exporte HTTP como um serviço através de uma porta
+- Camada de roteamento para lidar com pedidos de encaminhamento a um hostname 
+- Use bibliotecas de webserver como Jetty para JVM ou Thin para Ruby 
+- Um app pode se tornar o serviço de apoio para outro app
 
 
 ---
 
-## VIII. Concurrency
+## VIII. Concorrência
 
-Scale out via the process model
+Escale pelo o modelo de processo 
 
-- Processes are a first class citizen
-- Never daemonize or write PID files
-- Relies on OS process manager (upstart, systemd, launchd, foreman, ...) to:
- - Manage output streams
- - Respond to crashed processes
- - Handle restarts and shutdowns
+- Processos são cidadões de primeira classe 
+- Nunca daemonize ou escreva arquivos PID 
+- Confie num gerente processos (upstart, systemd, launchd, foreman, ...) para: 
+  - Gerenciar fluxos de saída 
+  - Responder a processos travados 
+  - Controle de reinícios e desligamentos
 
 ???
 
@@ -165,14 +171,13 @@ Scale out via the process model
 
 ---
 
-## IX. Disposability
+## IX. Descartabilidade
 
-Maximize robustness with fast startup and graceful shutdown
+Maximizar a robustez com rápida inicialização e desligamento
 
-- .hidden[ App’s processes are disposable: ] Can be started or stopped at a moment’s notice
-- Maximize robustness with fast startup and graceful shutdown
-- Gracefully shut down when receiving a SIGTERM signal
-- Processes should be robust against sudden death
+- .hidden[ Os processos de apps são descartáveis: ] Podem ser iniciados ou interrompido em qualquer momento
+- Desligar elegantemente (gracefully) quando receber um sinal SIGTERM
+- Os processos devem ser robustos contra morte súbita
 
 .hidden[
 - Crash-only software
@@ -182,25 +187,32 @@ Maximize robustness with fast startup and graceful shutdown
 
 ---
 
-## X. Dev/prod parity
+## X. Paridade entre Dev/prod
 
-Keep development, staging, and production as similar as possible
+Mantenha ambientes (dev, staging, prod) o mais similar possível
 
-- Designed for continuous deployment
-- Keep the gap between development and production small:
- - Time gap: long time to prod
- - Personnel gap: developers code, ops deploy
- - Tools gap: different stack
-- Resists to use different backing services between dev and prod
+- Projetado para implantação contínua
+- Manter a lacuna entre dev e prod pequena:
+ - Lacuna de tempo
+ - Lacuna de pessoas
+ - Lacuna de ferramentas
+- Resistir a usar diferentes serviços entre dev e prod
+
+???
+
+- Muito tempo para chegar em prod
+- devs codificam, ops implantam
+- diferentes ferramentas entre dev/prod
+
 
 ---
 
 ## XI. Logs
 
-Treat logs as event streams
+Trate logs como fluxo de eventos
 
-- Event stream is written to STDOUT
-- Use log routers (such as Logplex and Fluent)
+- Fluxo de eventos é escrito para STDOUT
+- Use roteadores de logs, como Logplex e Fluent
 
 .hidden[
 Note: writing to stdout seems very purist
@@ -208,20 +220,20 @@ Note: writing to stdout seems very purist
 
 ---
 
-## XII. Admin processes
+## XII. Processos de Admin
 
-Run admin/management tasks as one-off processes
+Rode tarefas de admin/gerenciamento como processos pontuais
 
-- Run against a release: same code and config as any process run against that release
-- Must ship with application code to avoid synchronization issues
-- e.g. Database migration
+- Rode contra um release: mesmo código e configuração como outros processos
+- Deve ser entregue com o código de aplicação evitando problemas de sincronização
+- ex: Migrações de banco de dados
 
 
 .hidden[ Importance: HIGH Having console access to a production system is a critical administrative and debugging tool, and every major language/framework provides it. No excuses for sloppiness here ]
 
 ---
 
-## More
+## Fontes
 
 - http://12factor.net/
 - https://news.ycombinator.com/item?id=3267187
@@ -233,5 +245,5 @@ Run admin/management tasks as one-off processes
 
 class: center, middle
 
-## Questions
+## Perguntas?
 
