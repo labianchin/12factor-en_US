@@ -1,5 +1,5 @@
 name: 12factor
-class: center, middle
+class: center, middle, inverse
 
 # 12 Factor App
 
@@ -243,7 +243,7 @@ Rode tarefas de admin/gerenciamento como processos pontuais
 
 ---
 
-class: center, middle
+class: center, middle, inverse
 
 ## Perguntas?
 
