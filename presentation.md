@@ -41,6 +41,11 @@ One codebase tracked in revision control, many deploys
 
 .center[ ![]( http://12factor.net/images/codebase-deploys.png ) ]
 
+???
+
+- Easy to track what code is deployed
+
+
 ---
 
 ## II. Dependencies
@@ -77,11 +82,13 @@ Treat backing services as attached resources
 - Loose coupling to the attached deploy
 - Resources can be attached and detached to deploys at will, no code changes
 
-.hidden[
-- Possible to use a fake service for testing
-]
-
 .center.fixsize[ ![](http://12factor.net/images/attached-resources.png) ]
+
+???
+
+- Possible to use a fake service for testing
+- Easy to change database servers or e-mail providers
+
 
 HIGH importance
 
@@ -95,14 +102,14 @@ Strictly separate build, release and run stages
 - **Release** : Build with deploy's current config, ready for immediate execution
 - **Run** : Launches a set of app's processes against a selected release
 
-.hidden[
+.center[ ![](http://12factor.net/images/release.png) ]
+
+???
+
 - Example tool: Capistrano
 - Run stage -> simple
 - Build -> more complex: errors are visible for the devs
-Conceptual importance. The tools you use shape these processes.
-]
-
-.center[ ![](http://12factor.net/images/release.png) ]
+- Conceptual importance. The tools you use shape these processes.
 
 
 ---
@@ -119,10 +126,10 @@ Execute the app as one or more stateless processes
  - Incurs fewer bugs
  - Scales better
 
-.hidden[
+???
+
 - The app is executed in the execution environment
 - Easy to tear down and move to other server
-]
 
 HIGH importance
 
@@ -137,7 +144,6 @@ Export services via port binding
 - Uses Webserver libraries such as Jetty for JVM or Thin for Ruby
 - One app can become the backing service for another app
 
-Importance: Medium
 
 ---
 
@@ -152,9 +158,9 @@ Scale out via the process model
  - Respond to crashed processes
  - Handle restarts and shutdowns
 
-.hidden[
+???
+
 - Foreman, good tool, can export to other processes managers
-]
 
 
 ---
@@ -170,9 +176,9 @@ Maximize robustness with fast startup and graceful shutdown
 
 .hidden[
 - Crash-only software
+ Importance: Medium Depending on how often you are releasing new code (hopefully many times per day, if you can), and how much you have to scale your app traffic up and down on demand, you probably won’t have to worry about your startup/shutdown speed, but be sure to understand the implications for your app. 
 ]
 
-.hidden[ Importance: Medium Depending on how often you are releasing new code (hopefully many times per day, if you can), and how much you have to scale your app traffic up and down on demand, you probably won’t have to worry about your startup/shutdown speed, but be sure to understand the implications for your app. ]
 
 ---
 
