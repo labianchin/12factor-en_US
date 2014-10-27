@@ -5,6 +5,12 @@ class: center, middle, inverse
 
 ### Construindo aplicações para escala da web
 
+
+
+Luís Armando Bianchin
+
+Consultant Developer
+
 .hidden[
 With powerful tools and modern cloud platforms one can think on how to properly build web apps that suits these environments. The 12  Factor App is a set of best practices on how apps built for PaaS should be architected. At its core, apps need not to care where they are.
 ]
@@ -247,3 +253,6 @@ class: center, middle, inverse
 
 ## Perguntas?
 
+Luís Armando Bianchin
+
+labianchin@thoughtworks.com
