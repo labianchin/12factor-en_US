@@ -1,5 +1,5 @@
 name: 12factor
-class: center, middle
+class: center, middle, inverse
 
 # 12 Factor App
 
